@@ -16,6 +16,7 @@ ULTIMATE_SCALPING_SETTINGS = {
     "signal_uptime": 60,
     "max_breach": 4,
     "signal_quantity": {"5m": 180, "15m": 60, "30m": 500, "4h": 500},
+    "trend": {'period': '1d', 'fast_ema': 8, 'slow_ema': 20},
 
 }
 

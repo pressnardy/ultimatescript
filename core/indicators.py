@@ -31,7 +31,6 @@ class EMA:
         sma = sum(data[:sma_period]) / sma_period
         ema_values.append(sma)
 
-        
         for price in data[sma_period:]:
             ema = (price - ema_values[-1]) * multiplier + ema_values[-1]
             ema_values.append(ema)
@@ -57,38 +56,23 @@ class EmaCross:
         period = self.slow_period
         return self.get_emas(period)[-1]
 
-
     def is_bullish(self):
         return self.get_fast_ema() > self.get_slow_ema()
 
     def is_bearish(self):
         return self.get_fast_ema() < self.get_slow_ema()
-   
-    def get_last_cross_time(self):
-        emas = self.get_emas(self.fast_period)
-        for i in range(len(emas) - 1, 0, -1): #iterate backwards
-            if emas[i]["value"] > emas[i - 1]["value"]:
-                return emas[i]["time"]
-            elif emas[i]["value"] < emas[i - 1]["value"]:
-                return emas[i]["time"]
-        return None
-    
 
     def get_last_cross(self):
         fast_emas = self.get_emas(self.fast_period)
         slow_emas = self.get_emas(self.slow_period)
-        
         for i in range(len(fast_emas) - 1, 0, -1):
             if fast_emas[i]["value"] > slow_emas[i]["value"] and fast_emas[i - 1]["value"] < slow_emas[i - 1]["value"]:
-                return {
-                    "time": fast_emas[i]["time"],
-                    "type": "buy"
-                }
+                return {"time": fast_emas[i]["time"], "direction": "buy"}
             
             if fast_emas[i]["value"] < slow_emas[i]["value"] and fast_emas[i - 1]["value"] > slow_emas[i - 1]["value"]:
                 return{
                     "time": fast_emas[i]["time"],
-                    "type": "sell"
+                    "direction": "sell"
                 }
         return None
     

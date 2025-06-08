@@ -1,13 +1,12 @@
-import time
-from datetime import datetime, timezone
+import datetime
+from core import apirequests, settings, util
 
-system_time = time.time()
-utc_time = datetime.utcnow().timestamp()
-
-# print(f"System time: {system_time}")
-print(f"UTC time: {utc_time}")
-current_time = datetime.now(timezone.utc).timestamp()
-# print(f"Difference: {system_time - utc_time} seconds")
-print(f".now: {current_time}")
-
+last_candle = apirequests.get_candles('30m', 2, 'BTCUSDT')[-1]
+# print(last_candle)
+candle_time = last_candle['time']
+current_time = datetime.datetime.now(datetime.timezone.utc).timestamp() * 1000
+print(current_time)
+uptime_duration = 30
+is_active = util.is_active_signal(candle_time, uptime_duration)
+print(is_active)
 
